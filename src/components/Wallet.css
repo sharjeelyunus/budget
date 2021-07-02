@@ -1,0 +1,83 @@
+.wallet {
+  display: flex;
+  justify-content: center;
+  padding: 30px;
+}
+
+.wallet__card {
+  background-color: blueviolet;
+  background-image: linear-gradient(to right, #cd4ff7, #6953f7);
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  text-align: center;
+  align-items: center;
+  justify-content: center;
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0px 10px 20px 4px #00000085;
+  margin: 10px;
+  text-shadow: 2px 7px 5px rgba(0, 0, 0, 0.3),
+    0px -4px 10px rgba(255, 255, 255, 0.3);
+}
+
+.wallet__header > h1 {
+  font-size: 25px;
+  z-index: 2;
+}
+
+.wallet__header > h2 {
+  font-size: 20px;
+}
+
+.wallet__header > h3 {
+  font-size: 30px;
+}
+
+.walletDetails {
+  display: flex;
+}
+
+.walletDetails__money {
+  display: flex;
+  padding: 10px;
+  align-items: center;
+}
+
+.walletDetails__arrowUp > .MuiSvgIcon-root {
+  font-size: 16px;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: blueviolet;
+  color: rgb(92, 226, 92);
+  margin: 5px;
+}
+
+.walletDetails__arrowDown > .MuiSvgIcon-root {
+  font-size: 16px;
+  border-radius: 50%;
+  padding: 5px;
+  background-color: blueviolet;
+  color: rgb(248, 50, 50);
+  margin: 5px;
+}
+
+.wallet__buttons {
+  display: flex;
+}
+
+.wallet__button {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.wallet__button > .MuiSvgIcon-root {
+  margin-top: 10px;
+  cursor: pointer;
+  font-size: 50px;
+}

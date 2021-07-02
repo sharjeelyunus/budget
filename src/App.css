@@ -1,4 +1,8 @@
 * {
   margin: 0;
+}
+
+.App {
   background-color: #302d43;
+  color: rgb(213, 209, 209);
 }
