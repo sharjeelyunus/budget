@@ -1,0 +1,22 @@
+.transaction__card {
+  display: flex;
+  background-color: #3a3a3a;
+  border-radius: 10px;
+  align-items: center;
+  width: 400px;
+  text-align: center;
+  justify-content: space-between;
+  padding: 20px;
+  margin: 5px;
+  cursor: pointer;
+}
+
+.transaction__type {
+  display: flex;
+}
+
+@media only screen and (max-width: 600px) {
+  .transaction__card {
+    width: 280px;
+  }
+}

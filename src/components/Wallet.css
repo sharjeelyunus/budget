@@ -81,3 +81,18 @@
   cursor: pointer;
   font-size: 50px;
 }
+
+@media only screen and (max-width: 600px) {
+  .wallet {
+    flex-direction: column;
+    padding: 0px;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  .wallet__card {
+    width: 250px;
+  }
+}
