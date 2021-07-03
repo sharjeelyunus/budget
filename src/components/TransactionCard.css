@@ -15,6 +15,11 @@
   display: flex;
 }
 
+.transaction__time > p {
+  max-width: 120px;
+  font-size: 12px;
+}
+
 @media only screen and (max-width: 600px) {
   .transaction__card {
     width: 280px;

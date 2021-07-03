@@ -5,3 +5,12 @@
   align-items: center;
   padding-bottom: 50px;
 }
+
+.transctions__card {
+  max-height: 350px;
+  overflow-y: scroll;
+}
+
+.transctions__card::-webkit-scrollbar {
+  display: none;
+}

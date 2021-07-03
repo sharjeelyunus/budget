@@ -1,22 +1,22 @@
 import React from 'react';
 import './TransactionCard.css';
 
-const TransationCard = () => {
+const TransationCard = ({ income, expense, transactionType, timestamp, expenseType, expenseFor }) => {
     return (
         <div>
             <div className="transaction__card">
                 <div className="transaction__type">
-                    <p>Expense</p>
+                    <p>{transactionType}</p>
                 </div>
                 <div className="transaction__purpose">
-                    <h4>Travel</h4>
-                    <p>BWP to JP</p>
+                    <h4>{expenseType}</h4>
+                    <p>{expenseFor}</p>
                 </div>
                 <div className="transaction__money">
-                    <h4>200 PKR</h4>
+                    <h4>{income || expense} PKR</h4>
                 </div>
-                <div>
-                    <p>Date</p>
+                <div className="transaction__time">
+                    <p>{timestamp}</p>
                 </div>
             </div>
         </div>

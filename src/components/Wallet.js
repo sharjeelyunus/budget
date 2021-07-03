@@ -61,17 +61,24 @@ const Wallet = () => {
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December"
     ];
+
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
     const newDate = new Date();
-    let date = newDate.getDate();
+    const date = newDate.getDate();
+    const day = dayNames[newDate.getDay()];
     const monthName = monthNames[newDate.getMonth()];
+    const year = newDate.getFullYear();
 
     const handleSubmitIncome = (e) => {
         e.preventDefault();
 
         db.collection(`${user.email}`).add({
+            Transaction: 'Income',
             Income: addIncomeValue,
             description: addIncomeDesc,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
         });
 
         setaddIncomeValue('');
@@ -82,11 +89,13 @@ const Wallet = () => {
         e.preventDefault();
 
         db.collection(`${user.email}`).add({
+            Transaction: 'Expense',
             Expense: addExpenseValue,
             Type: addExpenseType,
             For: addExpenseFor,
             description: addExpenseDesc,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp()
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
         });
 
         setaddExpenseValue('');
@@ -116,7 +125,7 @@ const Wallet = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleSubmitIncome}>
                                 <div className="addIncome__date">
-                                    <span>{date} {monthName}</span>
+                                    <span>{day} {date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
@@ -160,7 +169,7 @@ const Wallet = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleSubmitExpense}>
                                 <div className="addIncome__date">
-                                    <span>{date} {monthName}</span>
+                                    <span>{day} {date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
