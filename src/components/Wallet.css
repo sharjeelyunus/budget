@@ -82,6 +82,50 @@
   font-size: 50px;
 }
 
+.addIncome__input > input {
+  padding: 15px;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin: 10px 10px 10px 0px;
+  width: 250px;
+  background-color: #3a3a3a;
+  color: white;
+}
+
+.addIncome__form {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+}
+
+.addIncome__date {
+  padding: 10px;
+  font-weight: 600;
+}
+
+.addIncome__form > button {
+  background-color: #302d43;
+  background-image: linear-gradient(to right, #cd4ff7, #6953f7);
+  color: white;
+  cursor: pointer;
+  border: none;
+  border-radius: 10px;
+  padding: 10px 20px 10px 20px;
+  margin: 20px 0px 0px 10px;
+}
+
+.wallet__addIncome > form > input {
+  padding: 15px;
+  outline: none;
+  border: 1px solid gray;
+  border-radius: 3px;
+  margin: 10px 0px 0px 10px;
+  width: 300px;
+  background-color: #3a3a3a;
+  color: white;
+}
+
 @media only screen and (max-width: 600px) {
   .wallet {
     flex-direction: column;
@@ -94,5 +138,13 @@
 
   .wallet__card {
     width: 250px;
+  }
+
+  .addIncome__input > input {
+    width: 180px;
+  }
+
+  .wallet__addIncome > form > input {
+    width: 230px;
   }
 }
