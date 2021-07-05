@@ -18,21 +18,39 @@ const Transations = () => {
 
     return (
         <div className="transactions">
-            <h1>Transactions</h1>
+            <div className="transctions__widget">
+                <h1>Transactions</h1>
 
-            <div className="transctions__card">
-                {transactionCard.map(({ transaction }) => (
-                    <TransactionCard
-                        income={transaction.Income}
-                        expense={transaction.Expense}
-                        expenseType={transaction.Type}
-                        expenseFor={transaction.For}
-                        transactionType={transaction.Transaction}
-                        timestamp={transaction.localTimestamp}
-                    />
-                ))}
+                <div className="transctions__card">
+                    {transactionCard.map(({ transaction }) => (
+                        <TransactionCard
+                            income={transaction.Income}
+                            expense={transaction.Expense}
+                            expenseType={transaction.Type}
+                            expenseFor={transaction.For}
+                            transactionType={transaction.Transaction}
+                            timestamp={transaction.localTimestamp}
+                        />
+                    ))}
+                </div>
             </div>
 
+            <div className="loan__widget">
+                <h1>Loans</h1>
+
+                <div className="transctions__card">
+                    {transactionCard.map(({ transaction }) => (
+                        <TransactionCard
+                            income={transaction.Income}
+                            expense={transaction.Expense}
+                            expenseType={transaction.Type}
+                            expenseFor={transaction.For}
+                            transactionType={transaction.Transaction}
+                            timestamp={transaction.localTimestamp}
+                        />
+                    ))}
+                </div>
+            </div>
         </div>
     )
 }

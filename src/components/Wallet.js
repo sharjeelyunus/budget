@@ -10,6 +10,8 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase from 'firebase';
 import './Wallet.css';
 import WalletWidget from './WalletWidget';
+import Loan from './Loan';
+import WalletDetails from './WalletDetails';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -206,20 +208,26 @@ const Wallet = () => {
                     </div>
                 </Fade>
             </Modal>
+            <div>
+                <WalletWidget />
 
-            <WalletWidget />
-
-            <div className="wallet__card">
-                <div className="wallet__buttons">
-                    <div className="wallet__button">
-                        <p>Add</p>
-                        <AddCircleIcon onClick={handleOpenIncome} />
-                    </div>
-                    <div className="wallet__button">
-                        <p>Expense</p>
-                        <RemoveCircleIcon onClick={handleOpenExpense} />
+                <WalletDetails />
+            </div>
+            <div>
+                <div className="wallet__card">
+                    <div className="wallet__buttons">
+                        <div className="wallet__button">
+                            <p>Add</p>
+                            <AddCircleIcon onClick={handleOpenIncome} />
+                        </div>
+                        <div className="wallet__button">
+                            <p>Expense</p>
+                            <RemoveCircleIcon onClick={handleOpenExpense} />
+                        </div>
                     </div>
                 </div>
+
+                <Loan />
             </div>
         </div>
     )
