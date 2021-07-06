@@ -1,27 +1,38 @@
-import React, { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import React from 'react';
+import { useAuthState } from 'react-firebase-hooks/auth';
+import { auth, db } from '../firebase';
 
-export const Transaction = ({ transaction }) => {
-    const { deleteTransaction } = useContext(GlobalContext);
+export const Transaction = ({ id, transaction, incomeText, expenseText, timestamp }) => {
+    const [user] = useAuthState(auth);
 
-    const sign = transaction.amount < 0 ? '-' : '+';
+    const sign = transaction < 0 ? '-' : '+';
+
+    const deleteTransaction = () => {
+
+        var docToBeDeleted = db.collection(`${user.email}`).where('id', '==', id);
+        docToBeDeleted.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                doc.ref.delete();
+            });
+        });
+    }
 
     return (
-        <div className={transaction.amount < 0 ? 'transaction__card minus' : 'transaction__card plus'}>
+        <div className={transaction < 0 ? 'transaction__card minus' : 'transaction__card plus'}>
             {/* <div className="transaction__type">
                 <p></p>
             </div> */}
             <div className="transaction__purpose">
-                <h4>{transaction.incomeText || transaction.expenseText}</h4>
+                <h4>{incomeText || expenseText}</h4>
                 {/* <p></p> */}
             </div>
             <div className="transaction__money">
-                <h4>{sign}{Math.abs(transaction.amount)} PKR</h4>
+                <h4>{sign}{Math.abs(transaction)} PKR</h4>
             </div>
             <div className="transaction__time">
-                <p>{transaction.localTimestamp}</p>
+                <p>{timestamp}</p>
             </div>
-            <button className="delete-btn" onClick={() => deleteTransaction(transaction.id)}>x</button>
+            <button className="delete-btn" onClick={() => deleteTransaction()}>x</button>
         </div>
     )
 }

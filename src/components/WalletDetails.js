@@ -1,21 +1,8 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
-import { GlobalContext } from '../context/GlobalState';
 
-const WalletDetails = () => {
-    const { transactions } = useContext(GlobalContext);
-
-    const amounts = transactions.map(transaction => transaction.amount);
-
-    const income = amounts
-        .filter(item => item > 0)
-        .reduce((acc, item) => (acc += item), 0)
-
-    const expense = (
-        amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) *
-        -1
-    )
+const WalletDetails = ({ income, expense }) => {
 
     return (
         <div className="wallet__card">

@@ -1,11 +1,6 @@
-import React, { useContext } from 'react';
-import { GlobalContext } from '../context/GlobalState';
+import React from 'react';
 
-const WalletWidget = () => {
-    const { transactions } = useContext(GlobalContext);
-
-    const amounts = transactions.map(transaction => transaction.amount);
-    const total = amounts.reduce((acc, item) => (acc += item), 0);
+const WalletWidget = ({ total }) => {
 
     return (
         <div className="wallet__card">

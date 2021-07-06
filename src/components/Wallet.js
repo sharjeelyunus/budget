@@ -39,9 +39,22 @@ const Wallet = () => {
     const [openIncome, setOpenIncome] = useState(false);
     const [openExpense, setOpenExpense] = useState(false);
     const [incomeText, setIncomeText] = useState('');
-    const [incomeAmount, setIncomeAmount] = useState();
+    const [incomeAmount, setIncomeAmount] = useState(0);
     const [expenseText, setExpenseText] = useState('');
-    const [expenseAmount, setExpenseAmount] = useState();
+    const [expenseAmount, setExpenseAmount] = useState(0);
+
+    const { transactions } = useContext(GlobalContext);
+
+    const amounts = transactions.map(transaction => transaction.amount);
+    const total = amounts.reduce((acc, item) => (acc += item), 0);
+    const income = amounts
+        .filter(item => item > 0)
+        .reduce((acc, item) => (acc += item), 0);
+
+    const expense = (
+        amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) *
+        -1
+    );
 
     const handleOpenIncome = () => {
         setOpenIncome(true);
@@ -71,54 +84,30 @@ const Wallet = () => {
     const monthName = monthNames[newDate.getMonth()];
     const year = newDate.getFullYear();
 
-    // const handleSubmitIncome = (e) => {
-    //     e.preventDefault();
-
-    //     db.collection(`${user.email}`).add({
-    //         Transaction: 'Income',
-    //         Income: addIncomeValue,
-    //         description: addIncomeDesc,
-    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //         localTimestamp: `${day} ${date} ${monthName} ${year}`
-    //     });
-
-    //     setaddIncomeValue('');
-    //     setaddIncomeDesc('');
-    // };
-
-    // const handleSubmitExpense = (e) => {
-    //     e.preventDefault();
-
-    //     db.collection(`${user.email}`).add({
-    //         Transaction: 'Expense',
-    //         Expense: addExpenseValue,
-    //         Type: addExpenseType,
-    //         For: addExpenseFor,
-    //         description: addExpenseDesc,
-    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-    //         localTimestamp: `${day} ${date} ${monthName} ${year}`
-    //     });
-
-    //     setaddExpenseValue('');
-    //     setaddExpenseType('');
-    //     setaddExpenseFor('');
-    //     setaddExpenseDesc('');
-    // };
-
     const { addIncome } = useContext(GlobalContext);
     const { addExpense } = useContext(GlobalContext);
+
+    const id = Math.floor(Math.random() * 100000000);
 
     const handleIncome = (e) => {
         e.preventDefault();
 
         const newIncome = {
-            id: Math.floor(Math.random() * 100000000),
+            id: id,
             incomeText: incomeText,
             amount: +incomeAmount,
             localTimestamp: `${day} ${date} ${monthName} ${year}`
         }
 
         addIncome(newIncome);
+
+        db.collection(`${user.email}`).add({
+            id: id,
+            amount: incomeAmount,
+            incomeText: incomeText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
 
         setIncomeText('');
         setIncomeAmount('');
@@ -128,13 +117,21 @@ const Wallet = () => {
         e.preventDefault();
 
         const newExpense = {
-            id: Math.floor(Math.random() * 100000000),
+            id: id,
             expenseText,
-            amount: -expenseAmount,
+            amount: -`${expenseAmount}`,
             localTimestamp: `${day} ${date} ${monthName} ${year}`
         }
 
         addExpense(newExpense);
+
+        db.collection(`${user.email}`).add({
+            id: id,
+            amount: -expenseAmount,
+            expenseText: expenseText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
 
         setExpenseText('');
         setExpenseAmount('');
@@ -234,9 +231,9 @@ const Wallet = () => {
                 </Fade>
             </Modal>
             <div>
-                <WalletWidget />
+                <WalletWidget total={total} />
 
-                <WalletDetails />
+                <WalletDetails income={income} expense={expense} />
 
             </div>
             <div>
