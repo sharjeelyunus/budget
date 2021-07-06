@@ -120,6 +120,7 @@ const TransactionWidget = () => {
         setExpenseText('');
         setExpenseAmount('');
     }
+
     return (
         <div className="wallet__card">
 
@@ -221,17 +222,6 @@ const TransactionWidget = () => {
                 <div className="wallet__button">
                     <p>Expense</p>
                     <RemoveCircleIcon onClick={handleOpenExpense} />
-                </div>
-            </div>
-
-            <div className="wallet__buttons">
-                <div className="wallet__button">
-                    <p>Get Loan</p>
-                    <AddCircleIcon />
-                </div>
-                <div className="wallet__button">
-                    <p>Give Loan</p>
-                    <RemoveCircleIcon />
                 </div>
             </div>
         </div>

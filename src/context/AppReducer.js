@@ -20,10 +20,3 @@ const ap = (state, action) => {
     }
 };
 export default ap;
-
-// export default (state, action) => {
-//     switch (action.type) {
-//         default:
-//             return state;
-//     }
-// }
