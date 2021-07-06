@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { makeStyles } from '@material-ui/core/styles';
@@ -12,6 +12,7 @@ import './Wallet.css';
 import WalletWidget from './WalletWidget';
 import Loan from './Loan';
 import WalletDetails from './WalletDetails';
+import { GlobalContext } from '../context/GlobalState';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -37,12 +38,10 @@ const Wallet = () => {
     const [user] = useAuthState(auth);
     const [openIncome, setOpenIncome] = useState(false);
     const [openExpense, setOpenExpense] = useState(false);
-    const [addIncomeValue, setaddIncomeValue] = useState('');
-    const [addIncomeDesc, setaddIncomeDesc] = useState('');
-    const [addExpenseValue, setaddExpenseValue] = useState('');
-    const [addExpenseType, setaddExpenseType] = useState('');
-    const [addExpenseFor, setaddExpenseFor] = useState('');
-    const [addExpenseDesc, setaddExpenseDesc] = useState('');
+    const [incomeText, setIncomeText] = useState('');
+    const [incomeAmount, setIncomeAmount] = useState();
+    const [expenseText, setExpenseText] = useState('');
+    const [expenseAmount, setExpenseAmount] = useState();
 
     const handleOpenIncome = () => {
         setOpenIncome(true);
@@ -72,39 +71,74 @@ const Wallet = () => {
     const monthName = monthNames[newDate.getMonth()];
     const year = newDate.getFullYear();
 
-    const handleSubmitIncome = (e) => {
+    // const handleSubmitIncome = (e) => {
+    //     e.preventDefault();
+
+    //     db.collection(`${user.email}`).add({
+    //         Transaction: 'Income',
+    //         Income: addIncomeValue,
+    //         description: addIncomeDesc,
+    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //         localTimestamp: `${day} ${date} ${monthName} ${year}`
+    //     });
+
+    //     setaddIncomeValue('');
+    //     setaddIncomeDesc('');
+    // };
+
+    // const handleSubmitExpense = (e) => {
+    //     e.preventDefault();
+
+    //     db.collection(`${user.email}`).add({
+    //         Transaction: 'Expense',
+    //         Expense: addExpenseValue,
+    //         Type: addExpenseType,
+    //         For: addExpenseFor,
+    //         description: addExpenseDesc,
+    //         timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+    //         localTimestamp: `${day} ${date} ${monthName} ${year}`
+    //     });
+
+    //     setaddExpenseValue('');
+    //     setaddExpenseType('');
+    //     setaddExpenseFor('');
+    //     setaddExpenseDesc('');
+    // };
+
+    const { addIncome } = useContext(GlobalContext);
+    const { addExpense } = useContext(GlobalContext);
+
+    const handleIncome = (e) => {
         e.preventDefault();
 
-        db.collection(`${user.email}`).add({
-            Transaction: 'Income',
-            Income: addIncomeValue,
-            description: addIncomeDesc,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        const newIncome = {
+            id: Math.floor(Math.random() * 100000000),
+            incomeText: incomeText,
+            amount: +incomeAmount,
             localTimestamp: `${day} ${date} ${monthName} ${year}`
-        });
+        }
 
-        setaddIncomeValue('');
-        setaddIncomeDesc('');
-    };
+        addIncome(newIncome);
 
-    const handleSubmitExpense = (e) => {
+        setIncomeText('');
+        setIncomeAmount('');
+    }
+
+    const handleExpense = (e) => {
         e.preventDefault();
 
-        db.collection(`${user.email}`).add({
-            Transaction: 'Expense',
-            Expense: addExpenseValue,
-            Type: addExpenseType,
-            For: addExpenseFor,
-            description: addExpenseDesc,
-            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+        const newExpense = {
+            id: Math.floor(Math.random() * 100000000),
+            expenseText,
+            amount: -expenseAmount,
             localTimestamp: `${day} ${date} ${monthName} ${year}`
-        });
+        }
 
-        setaddExpenseValue('');
-        setaddExpenseType('');
-        setaddExpenseFor('');
-        setaddExpenseDesc('');
-    };
+        addExpense(newExpense);
+
+        setExpenseText('');
+        setExpenseAmount('');
+    }
 
     return (
         <div className="wallet">
@@ -125,27 +159,30 @@ const Wallet = () => {
                         <h2 id="transition-modal-title">Income</h2>
                         <p id="transition-modal-description">Add Income you just got!</p>
                         <div className="wallet__addIncome">
-                            <form className="addIncome__form" onSubmit={handleSubmitIncome}>
+                            <form className="addIncome__form" onSubmit={handleIncome}>
                                 <div className="addIncome__date">
                                     <span>{day} {date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
                                         type="number"
-                                        placeholder="Income"
-                                        onChange={e => setaddIncomeValue(e.target.value)}
-                                        value={addIncomeValue}
+                                        value={incomeAmount}
+                                        onChange={(e) => setIncomeAmount(e.target.value)}
+                                        placeholder="Enter amount..."
                                     />
                                     <label htmlFor="">PKR</label>
                                 </div>
                                 <input
-                                    placeholder="Description"
-                                    onChange={e => setaddIncomeDesc(e.target.value)}
-                                    value={addIncomeDesc}
+                                    type="text"
+                                    value={incomeText}
+                                    onChange={(e) => setIncomeText(e.target.value)}
+                                    placeholder="Enter text..."
                                 />
                                 <button type="submit">
                                     Add Money
                                 </button>
+
+
                             </form>
                         </div>
                     </div>
@@ -169,36 +206,24 @@ const Wallet = () => {
                         <h2 id="transition-modal-title">Expense</h2>
                         <p id="transition-modal-description">Put your expenses here!</p>
                         <div className="wallet__addIncome">
-                            <form className="addIncome__form" onSubmit={handleSubmitExpense}>
+                            <form className="addIncome__form" onSubmit={handleExpense}>
                                 <div className="addIncome__date">
                                     <span>{day} {date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
                                         type="number"
-                                        placeholder="Expense"
-                                        onChange={e => setaddExpenseValue(e.target.value)}
-                                        value={addExpenseValue}
+                                        value={expenseAmount}
+                                        onChange={(e) => setExpenseAmount(e.target.value)}
+                                        placeholder="Enter amount..."
                                     />
                                     <label htmlFor="">PKR</label>
                                 </div>
-                                <div className="addIncome__input">
-                                    <input
-                                        placeholder="Type"
-                                        onChange={e => setaddExpenseType(e.target.value)}
-                                        value={addExpenseType}
-                                    />
-                                    <label htmlFor="">Type</label>
-                                </div>
                                 <input
-                                    placeholder="For"
-                                    onChange={e => setaddExpenseFor(e.target.value)}
-                                    value={addExpenseFor}
-                                />
-                                <input
-                                    placeholder="Description"
-                                    onChange={e => setaddExpenseDesc(e.target.value)}
-                                    value={addExpenseDesc}
+                                    type="text"
+                                    value={expenseText}
+                                    onChange={(e) => setExpenseText(e.target.value)}
+                                    placeholder="Enter text..."
                                 />
                                 <button type="submit">
                                     Expense
@@ -212,6 +237,7 @@ const Wallet = () => {
                 <WalletWidget />
 
                 <WalletDetails />
+
             </div>
             <div>
                 <div className="wallet__card">

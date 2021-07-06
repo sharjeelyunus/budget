@@ -1,5 +1,6 @@
 .transactions {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   padding-bottom: 50px;
@@ -10,7 +11,10 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 0.5;
+}
+
+.transctions__widget > h1 {
+  margin-bottom: 20px;
 }
 
 .loan__widget {
@@ -18,7 +22,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  flex: 0.5;
+  margin-top: 30px;
 }
 
 .transctions__card {
@@ -28,11 +32,4 @@
 
 .transctions__card::-webkit-scrollbar {
   display: none;
-}
-
-@media only screen and (max-width: 600px) {
-  .transactions {
-    display: flex;
-    flex-direction: column;
-  }
 }

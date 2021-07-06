@@ -1,8 +1,22 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import ArrowUpwardIcon from '@material-ui/icons/ArrowUpward';
 import ArrowDownwardIcon from '@material-ui/icons/ArrowDownward';
+import { GlobalContext } from '../context/GlobalState';
 
 const WalletDetails = () => {
+    const { transactions } = useContext(GlobalContext);
+
+    const amounts = transactions.map(transaction => transaction.amount);
+
+    const income = amounts
+        .filter(item => item > 0)
+        .reduce((acc, item) => (acc += item), 0)
+
+    const expense = (
+        amounts.filter(item => item < 0).reduce((acc, item) => (acc += item), 0) *
+        -1
+    )
+
     return (
         <div className="wallet__card">
             <div className="walletDetails">
@@ -13,7 +27,7 @@ const WalletDetails = () => {
                         </div>
                         <div>
                             <h4>Income</h4>
-                            <p>5000 PKR</p>
+                            <p>{income} PKR</p>
                         </div>
                     </div>
                     <div className="walletDetails__money">
@@ -22,7 +36,7 @@ const WalletDetails = () => {
                         </div>
                         <div>
                             <h4>Expenses</h4>
-                            <p>2000 PKR</p>
+                            <p>{expense} PKR</p>
                         </div>
                     </div>
                 </div>
@@ -33,7 +47,7 @@ const WalletDetails = () => {
                         </div>
                         <div>
                             <h4>Get Loan</h4>
-                            <p>1000 PKR</p>
+                            <p> PKR</p>
                         </div>
                     </div>
                     <div className="walletDetails__money">
@@ -42,7 +56,7 @@ const WalletDetails = () => {
                         </div>
                         <div>
                             <h4>Give Loan</h4>
-                            <p>500 PKR</p>
+                            <p> PKR</p>
                         </div>
                     </div>
                 </div>

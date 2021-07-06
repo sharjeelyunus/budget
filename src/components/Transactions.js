@@ -22,16 +22,16 @@ const Transations = () => {
                 <h1>Transactions</h1>
 
                 <div className="transctions__card">
-                    {transactionCard.map(({ transaction }) => (
-                        <TransactionCard
-                            income={transaction.Income}
-                            expense={transaction.Expense}
-                            expenseType={transaction.Type}
-                            expenseFor={transaction.For}
-                            transactionType={transaction.Transaction}
-                            timestamp={transaction.localTimestamp}
-                        />
-                    ))}
+                    {/* {transactionCard.map(({ transaction }) => ( */}
+                    <TransactionCard
+                    // income={transaction.Income}
+                    // expense={transaction.Expense}
+                    // expenseType={transaction.Type}
+                    // expenseFor={transaction.For}
+                    // transactionType={transaction.Transaction}
+                    // timestamp={transaction.localTimestamp}
+                    />
+                    {/* ))} */}
                 </div>
             </div>
 
@@ -39,16 +39,7 @@ const Transations = () => {
                 <h1>Loans</h1>
 
                 <div className="transctions__card">
-                    {transactionCard.map(({ transaction }) => (
-                        <TransactionCard
-                            income={transaction.Income}
-                            expense={transaction.Expense}
-                            expenseType={transaction.Type}
-                            expenseFor={transaction.For}
-                            transactionType={transaction.Transaction}
-                            timestamp={transaction.localTimestamp}
-                        />
-                    ))}
+
                 </div>
             </div>
         </div>

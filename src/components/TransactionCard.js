@@ -1,24 +1,19 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import './TransactionCard.css';
+import { GlobalContext } from '../context/GlobalState';
+import { Transaction } from './Transaction';
 
-const TransationCard = ({ income, expense, transactionType, timestamp, expenseType, expenseFor }) => {
+const TransationCard = () => {
+    const { transactions } = useContext(GlobalContext);
+
     return (
         <div>
-            <div className="transaction__card">
-                <div className="transaction__type">
-                    <p>{transactionType}</p>
-                </div>
-                <div className="transaction__purpose">
-                    <h4>{expenseType}</h4>
-                    <p>{expenseFor}</p>
-                </div>
-                <div className="transaction__money">
-                    <h4>{income || expense} PKR</h4>
-                </div>
-                <div className="transaction__time">
-                    <p>{timestamp}</p>
-                </div>
-            </div>
+            {transactions.map(transaction => (
+                <Transaction
+                    key={transaction.id}
+                    transaction={transaction}
+                />
+            ))}
         </div>
     )
 }
