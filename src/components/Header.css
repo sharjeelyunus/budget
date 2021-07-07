@@ -7,7 +7,7 @@
 
 .header__logo {
   display: flex;
-  padding: 20px 0px 20px 50px;
+  padding: 20px 0px 10px 50px;
   align-items: center;
 }
 
@@ -28,7 +28,7 @@
 
 .header__user {
   display: flex;
-  padding: 20px 50px 20px 0px;
+  padding: 20px 50px 10px 0px;
   align-items: center;
 }
 
