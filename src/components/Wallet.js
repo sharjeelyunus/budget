@@ -1,14 +1,28 @@
-import React, { useContext } from 'react';
+import React, { useEffect, useState } from 'react';
 import './Wallet.css';
 import WalletWidget from './WalletWidget';
 import TransactionWidget from './TransactionWidget';
 import WalletDetails from './WalletDetails';
-import { GlobalContext } from '../context/GlobalState';
+import { auth, db } from '../firebase';
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 const Wallet = () => {
 
-    const { transactions } = useContext(GlobalContext);
-    const amounts = transactions.map(transaction => transaction.amount);
+    const [user] = useAuthState(auth);
+    const [transactions, setTransctions] = useState([]);
+
+    useEffect(() => {
+        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').onSnapshot(snapshot => {
+            setTransctions(snapshot.docs.map(doc => ({
+                transaction: doc.data()
+            })));
+        })
+    }, [user]);
+
+    const amountsArr = transactions.map(({ transaction }) => transaction.amount);
+
+    const amounts = amountsArr.map((i) => Number(i));
+
     const total = amounts.reduce((acc, item) => (acc += item), 0);
     const income = amounts
         .filter(item => item > 0)
