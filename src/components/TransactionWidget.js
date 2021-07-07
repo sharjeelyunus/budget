@@ -39,6 +39,12 @@ const TransactionWidget = () => {
     const [incomeAmount, setIncomeAmount] = useState();
     const [expenseText, setExpenseText] = useState('');
     const [expenseAmount, setExpenseAmount] = useState();
+    const [openGetLoan, setOpenGetLoan] = useState(false);
+    const [openGiveLoan, setOpenGiveLoan] = useState(false);
+    const [getLoanText, setGetLoanText] = useState('');
+    const [getLoanAmount, setGetLoanAmount] = useState();
+    const [giveLoanText, setGiveLoanText] = useState('');
+    const [giveLoanAmount, setGiveLoanAmount] = useState();
 
     const handleOpenIncome = () => {
         setOpenIncome(true);
@@ -54,6 +60,22 @@ const TransactionWidget = () => {
 
     const handleCloseExpense = () => {
         setOpenExpense(false);
+    };
+
+    const handleOpenGetLoan = () => {
+        setOpenGetLoan(true);
+    };
+
+    const handleCloseGetLoan = () => {
+        setOpenGetLoan(false);
+    };
+
+    const handleOpenGiveLoan = () => {
+        setOpenGiveLoan(true);
+    };
+
+    const handleCloseGiveLoan = () => {
+        setOpenGiveLoan(false);
     };
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
@@ -119,6 +141,36 @@ const TransactionWidget = () => {
 
         setExpenseText('');
         setExpenseAmount('');
+    }
+
+    const handleGetLoan = (e) => {
+        e.preventDefault();
+
+        db.collection(`${user.email}`).doc('Loans').collection('Loan').add({
+            id: id,
+            amount: getLoanAmount,
+            getLoanText: getLoanText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
+
+        setGetLoanText('');
+        setGetLoanAmount('');
+    }
+
+    const handleGiveLoan = (e) => {
+        e.preventDefault();
+
+        db.collection(`${user.email}`).doc('Loans').collection('Loan').add({
+            id: id,
+            amount: -giveLoanAmount,
+            giveLoanText: giveLoanText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
+
+        setGiveLoanText('');
+        setGiveLoanAmount('');
     }
 
     return (
@@ -214,14 +266,115 @@ const TransactionWidget = () => {
                 </Fade>
             </Modal>
 
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={openGetLoan}
+                onClose={handleCloseGetLoan}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={openGetLoan}>
+                    <div className={classes.paper}>
+                        <h2 id="transition-modal-title">GET LOAN</h2>
+                        <p id="transition-modal-description">Add Loan you just got!</p>
+                        <div className="wallet__addIncome">
+                            <form className="addIncome__form" onSubmit={handleGetLoan}>
+                                <div className="addIncome__date">
+                                    <span>{day} {date} {monthName}</span>
+                                </div>
+                                <div className="addIncome__input">
+                                    <input
+                                        type="number"
+                                        value={getLoanAmount}
+                                        onChange={(e) => setGetLoanAmount(e.target.value)}
+                                        placeholder="Enter amount..."
+                                    />
+                                    <label htmlFor="">PKR</label>
+                                </div>
+                                <input
+                                    type="text"
+                                    value={getLoanText}
+                                    onChange={(e) => setGetLoanText(e.target.value)}
+                                    placeholder="Enter text..."
+                                />
+                                <button type="submit">
+                                    Add Money
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </Fade>
+            </Modal>
+
+            <Modal
+                aria-labelledby="transition-modal-title"
+                aria-describedby="transition-modal-description"
+                className={classes.modal}
+                open={openGiveLoan}
+                onClose={handleCloseGiveLoan}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                    timeout: 500,
+                }}
+            >
+                <Fade in={openGiveLoan}>
+                    <div className={classes.paper}>
+                        <h2 id="transition-modal-title">Give Loan</h2>
+                        <p id="transition-modal-description">Add Loan you gave here!</p>
+                        <div className="wallet__addIncome">
+                            <form className="addIncome__form" onSubmit={handleGiveLoan}>
+                                <div className="addIncome__date">
+                                    <span>{day} {date} {monthName}</span>
+                                </div>
+                                <div className="addIncome__input">
+                                    <input
+                                        type="number"
+                                        value={giveLoanAmount}
+                                        onChange={(e) => setGiveLoanAmount(e.target.value)}
+                                        placeholder="Enter amount..."
+                                    />
+                                    <label htmlFor="">PKR</label>
+                                </div>
+                                <input
+                                    type="text"
+                                    value={giveLoanText}
+                                    onChange={(e) => setGiveLoanText(e.target.value)}
+                                    placeholder="Enter text..."
+                                />
+                                <button type="submit">
+                                    Add Give Loan
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </Fade>
+            </Modal>
+
             <div className="wallet__buttons">
-                <div className="wallet__button">
+                <div className="wallet__button addbtn" onClick={handleOpenIncome}>
                     <p>Add</p>
-                    <AddCircleIcon onClick={handleOpenIncome} />
+                    <AddCircleIcon />
                 </div>
-                <div className="wallet__button">
+                <div className="wallet__button minbtn" onClick={handleOpenExpense}>
                     <p>Expense</p>
-                    <RemoveCircleIcon onClick={handleOpenExpense} />
+                    <RemoveCircleIcon />
+                </div>
+            </div>
+
+            <div className="wallet__buttons">
+                <div className="wallet__button" onClick={handleOpenGetLoan}>
+                    <p>Get Loan</p>
+                    <AddCircleIcon />
+                </div>
+                <div className="wallet__button" onClick={handleOpenGiveLoan}>
+                    <p>Give Loan</p>
+                    <RemoveCircleIcon />
                 </div>
             </div>
         </div>

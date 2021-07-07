@@ -11,6 +11,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin: 20px;
 }
 
 .transctions__widget > h1 {
