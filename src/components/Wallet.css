@@ -32,7 +32,7 @@
   font-size: 20px;
 }
 
-.wallet__header > h3 {
+.wallet__header > div > h3 {
   font-size: 30px;
 }
 
@@ -125,6 +125,23 @@
   width: 300px;
   background-color: #3a3a3a;
   color: white;
+}
+
+.wallet__total {
+  display: flex;
+}
+
+.updateButton {
+  background-color: transparent;
+  border: none;
+  color: white;
+  margin-left: 10px;
+  cursor: pointer;
+}
+
+.updateButton > .MuiSvgIcon-root {
+  font-size: 30px;
+  padding-top: 5px;
 }
 
 @media only screen and (max-width: 600px) {

@@ -85,7 +85,7 @@ const TransactionWidget = () => {
 
         addIncome(newIncome);
 
-        db.collection(`${user.email}`).add({
+        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').add({
             id: id,
             amount: incomeAmount,
             incomeText: incomeText,
@@ -109,7 +109,7 @@ const TransactionWidget = () => {
 
         addExpense(newExpense);
 
-        db.collection(`${user.email}`).add({
+        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').add({
             id: id,
             amount: -expenseAmount,
             expenseText: expenseText,

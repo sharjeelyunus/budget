@@ -10,7 +10,7 @@ const Transations = () => {
     const [transactions, setTransctions] = useState([]);
 
     useEffect(() => {
-        db.collection(`${user.email}`).orderBy("timestamp", "desc").onSnapshot(snapshot => {
+        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').orderBy("timestamp", "desc").onSnapshot(snapshot => {
             setTransctions(snapshot.docs.map(doc => ({
                 transaction: doc.data()
             })));

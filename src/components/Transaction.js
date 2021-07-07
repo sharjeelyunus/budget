@@ -11,7 +11,7 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, timestam
     const { deleteTransaction } = useContext(GlobalContext);
 
     const deleteTransactionFromDB = () => {
-        const docToBeDeleted = db.collection(`${user.email}`).where('id', '==', id);
+        const docToBeDeleted = db.collection(`${user.email}`).doc('Transactions').collection('Transaction').where('id', '==', id);
         docToBeDeleted.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
@@ -30,7 +30,7 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, timestam
             <div className="transaction__time">
                 <p>{timestamp}</p>
             </div>
-            <button className="delete-btn" onClick={() => { deleteTransaction(id); deleteTransactionFromDB(); }}>x</button>
+            <button className="delete-btn" onClick={() => { deleteTransaction(id); deleteTransactionFromDB(id); }}>x</button>
         </div>
     )
 }
