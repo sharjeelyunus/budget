@@ -107,6 +107,21 @@
   color: white;
 }
 
+.options {
+  padding: 15px;
+}
+
+.options > lable {
+  margin-right: 20px;
+}
+
+.add__options {
+  width: 200px;
+  padding: 5px;
+  background-color: transparent;
+  border-radius: 5px;
+}
+
 .addIncome__form {
   display: flex;
   flex-direction: column;

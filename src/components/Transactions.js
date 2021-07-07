@@ -40,6 +40,7 @@ const Transations = () => {
                             incomeText={transaction.incomeText}
                             expenseText={transaction.expenseText}
                             timestamp={transaction.localTimestamp}
+                            expenseType={transaction.expenseType}
                         />
                     ))}
                 </div>
@@ -56,6 +57,8 @@ const Transations = () => {
                             getLoanText={loan.getLoanText}
                             giveLoanText={loan.giveLoanText}
                             timestamp={loan.localTimestamp}
+                            getLoanFrom={loan.getLoanFrom}
+                            giveLoanTo={loan.giveLoanTo}
                         />
                     ))}
                 </div>

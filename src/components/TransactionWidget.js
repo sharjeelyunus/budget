@@ -38,12 +38,15 @@ const TransactionWidget = () => {
     const [incomeText, setIncomeText] = useState('');
     const [incomeAmount, setIncomeAmount] = useState();
     const [expenseText, setExpenseText] = useState('');
+    const [expenseType, setExpenseType] = useState('');
     const [expenseAmount, setExpenseAmount] = useState();
     const [openGetLoan, setOpenGetLoan] = useState(false);
     const [openGiveLoan, setOpenGiveLoan] = useState(false);
     const [getLoanText, setGetLoanText] = useState('');
+    const [getLoanFrom, setGetLoanFrom] = useState('');
     const [getLoanAmount, setGetLoanAmount] = useState();
     const [giveLoanText, setGiveLoanText] = useState('');
+    const [giveLoanTo, setGiveLoanTo] = useState('');
     const [giveLoanAmount, setGiveLoanAmount] = useState();
 
     const handleOpenIncome = () => {
@@ -135,6 +138,7 @@ const TransactionWidget = () => {
             id: id,
             amount: -expenseAmount,
             expenseText: expenseText,
+            expenseType: expenseType,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             localTimestamp: `${day} ${date} ${monthName} ${year}`
         });
@@ -150,11 +154,13 @@ const TransactionWidget = () => {
             id: id,
             amount: getLoanAmount,
             getLoanText: getLoanText,
+            getLoanFrom: getLoanFrom,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             localTimestamp: `${day} ${date} ${monthName} ${year}`
         });
 
         setGetLoanText('');
+        setGetLoanFrom('');
         setGetLoanAmount('');
     }
 
@@ -165,11 +171,13 @@ const TransactionWidget = () => {
             id: id,
             amount: -giveLoanAmount,
             giveLoanText: giveLoanText,
+            giveLoanTo: giveLoanTo,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
             localTimestamp: `${day} ${date} ${monthName} ${year}`
         });
 
         setGiveLoanText('');
+        setGiveLoanTo('');
         setGiveLoanAmount('');
     }
 
@@ -257,6 +265,21 @@ const TransactionWidget = () => {
                                     onChange={(e) => setExpenseText(e.target.value)}
                                     placeholder="Enter text..."
                                 />
+                                <div className="options">
+                                    <lable>Category:</lable>
+                                    <select
+                                        className="add__options"
+                                        value={expenseType}
+                                        onChange={(e) => setExpenseType(e.target.value)}
+                                    >
+                                        <option>Food</option>
+                                        <option>Shopping</option>
+                                        <option>Travel</option>
+                                        <option>Fuel</option>
+                                        <option>Entertainment</option>
+                                        <option>Others</option>
+                                    </select>
+                                </div>
                                 <button type="submit">
                                     Expense
                                 </button>
@@ -300,10 +323,16 @@ const TransactionWidget = () => {
                                     type="text"
                                     value={getLoanText}
                                     onChange={(e) => setGetLoanText(e.target.value)}
-                                    placeholder="Enter text..."
+                                    placeholder="Get Loan For?"
+                                />
+                                <input
+                                    type="text"
+                                    value={getLoanFrom}
+                                    onChange={(e) => setGetLoanFrom(e.target.value)}
+                                    placeholder="Get Loan From?"
                                 />
                                 <button type="submit">
-                                    Add Money
+                                    Add Loan
                                 </button>
                             </form>
                         </div>
@@ -345,10 +374,16 @@ const TransactionWidget = () => {
                                     type="text"
                                     value={giveLoanText}
                                     onChange={(e) => setGiveLoanText(e.target.value)}
-                                    placeholder="Enter text..."
+                                    placeholder="Give Loan For?"
+                                />
+                                <input
+                                    type="text"
+                                    value={giveLoanTo}
+                                    onChange={(e) => setGiveLoanTo(e.target.value)}
+                                    placeholder="Give Loan To?"
                                 />
                                 <button type="submit">
-                                    Add Give Loan
+                                    Give Loan
                                 </button>
                             </form>
                         </div>

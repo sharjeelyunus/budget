@@ -2,7 +2,7 @@ import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 
-const Loan = ({ id, transaction, getLoanText, giveLoanText, timestamp }) => {
+const Loan = ({ id, transaction, getLoanText, giveLoanText, getLoanFrom, giveLoanTo, timestamp }) => {
     const [user] = useAuthState(auth);
 
     const sign = transaction < 0 ? '-' : '+';
@@ -24,6 +24,7 @@ const Loan = ({ id, transaction, getLoanText, giveLoanText, timestamp }) => {
             <div className="transaction__money">
                 <h4>{sign}{Math.abs(transaction)} PKR</h4>
             </div>
+            <p>{getLoanFrom || giveLoanTo}</p>
             <div className="transaction__time">
                 <p>{timestamp}</p>
             </div>

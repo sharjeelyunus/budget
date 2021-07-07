@@ -3,7 +3,7 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { GlobalContext } from '../context/GlobalState';
 import { auth, db } from '../firebase';
 
-export const Transaction = ({ id, transaction, incomeText, expenseText, timestamp }) => {
+export const Transaction = ({ id, transaction, incomeText, expenseText, expenseType, timestamp }) => {
     const [user] = useAuthState(auth);
 
     const sign = transaction < 0 ? '-' : '+';
@@ -27,6 +27,7 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, timestam
             <div className="transaction__money">
                 <h4>{sign}{Math.abs(transaction)} PKR</h4>
             </div>
+            <p>{expenseType}</p>
             <div className="transaction__time">
                 <p>{timestamp}</p>
             </div>
