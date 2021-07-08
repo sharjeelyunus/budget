@@ -4,11 +4,13 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth, db } from '../firebase';
 import { Transaction } from './Transaction';
 import Loan from './Loan';
+import TodayTransaction from '../Cards/TodayTransaction';
 
 const Transations = () => {
 
     const [user] = useAuthState(auth);
     const [transactions, setTransctions] = useState([]);
+    const [todayTransactions, setTodayTransctions] = useState([]);
     const [loans, setLoans] = useState([]);
 
     useEffect(() => {
@@ -27,22 +29,53 @@ const Transations = () => {
         })
     }, [user]);
 
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December", "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+
+    const newDate = new Date();
+    const date = newDate.getDate();
+    const day = dayNames[newDate.getDay() - 1];
+    const monthName = monthNames[newDate.getMonth()];
+    const year = newDate.getFullYear();
+
+    const today = `${day} ${date} ${monthName} ${year}`;
+
+    useEffect(() => {
+        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').where('localTimestamp', '==', today).onSnapshot(snapshot => {
+            setTodayTransctions(snapshot.docs.map(doc => ({
+                todayTransaction: doc.data()
+            })));
+        });
+    }, [user, today]);
+
+    const todayAmountsArr = todayTransactions.map(({ todayTransaction }) => todayTransaction.amount);
+    const todayAmounts = todayAmountsArr.map((i) => Number(i));
+    const totalToday = todayAmounts.reduce((acc, item) => (acc += item), 0);
+
     return (
         <div className="transactions">
             <div className="transctions__widget">
                 <h1>Transactions</h1>
+                <div className="widgets">
 
-                <div className="transctions__card">
-                    {transactions.map(({ transaction }) => (
-                        <Transaction
-                            id={transaction.id}
-                            transaction={transaction.amount}
-                            incomeText={transaction.incomeText}
-                            expenseText={transaction.expenseText}
-                            timestamp={transaction.localTimestamp}
-                            expenseType={transaction.expenseType}
-                        />
-                    ))}
+                    <TodayTransaction total={totalToday} />
+                    <div className="transctions__card">
+                        {transactions.map(({ transaction }) => (
+                            <Transaction
+                                id={transaction.id}
+                                transaction={transaction.amount}
+                                incomeText={transaction.incomeText}
+                                expenseText={transaction.expenseText}
+                                timestamp={transaction.localTimestamp}
+                                expenseType={transaction.expenseType}
+                            />
+                        ))}
+                    </div>
+
                 </div>
             </div>
 

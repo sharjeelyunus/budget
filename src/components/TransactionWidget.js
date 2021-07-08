@@ -89,7 +89,7 @@ const TransactionWidget = () => {
 
     const newDate = new Date();
     const date = newDate.getDate();
-    const day = dayNames[newDate.getDay()];
+    const day = dayNames[newDate.getDay() - 1];
     const monthName = monthNames[newDate.getMonth()];
     const year = newDate.getFullYear();
 
