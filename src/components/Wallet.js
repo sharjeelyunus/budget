@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import './Wallet.css';
 import WalletWidget from './WalletWidget';
 import TransactionWidget from './TransactionWidget';
-import WalletDetails from './WalletDetails';
 import { auth, db } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -59,8 +58,7 @@ const Wallet = () => {
 
     return (
         <div className="wallet">
-            <WalletWidget total={totalBalance} />
-            <WalletDetails income={income} expense={expense} getLoan={getLoan} giveLoan={giveLoan} />
+            <WalletWidget total={totalBalance} income={income} expense={expense} getLoan={getLoan} giveLoan={giveLoan} />
             <TransactionWidget />
         </div>
     )
