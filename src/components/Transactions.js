@@ -36,15 +36,12 @@ const Transations = () => {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
     const newDate = new Date();
     const date = newDate.getDate();
-    const day = dayNames[newDate.getDay() - 1];
     const monthName = monthNames[newDate.getMonth()];
     const year = newDate.getFullYear();
 
-    const today = `${day} ${date} ${monthName} ${year}`;
+    const today = `${date}/${monthName}/${year}`;
 
     useEffect(() => {
         db.collection('users').doc(`${user.email}`).collection('Transactions').where('localTimestamp', '==', today).onSnapshot(snapshot => {
