@@ -7,26 +7,22 @@ import { useAuthState } from 'react-firebase-hooks/auth';
 import { auth } from './firebase';
 import Login from './components/Login';
 
-import { GlobalProvider } from './context/GlobalState';
-
 function App() {
   const [user] = useAuthState(auth);
   return (
-    <GlobalProvider>
-      <div className="App">
-        <Router>
-          {!user ? (
-            <Login />
-          ) : (
-            <>
-              <Header />
-              <Wallet />
-              <Transactions />
-            </>
-          )}
-        </Router>
-      </div>
-    </GlobalProvider>
+    <div className="App">
+      <Router>
+        {!user ? (
+          <Login />
+        ) : (
+          <>
+            <Header />
+            <Wallet />
+            <Transactions />
+          </>
+        )}
+      </Router>
+    </div>
   );
 }
 

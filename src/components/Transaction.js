@@ -1,14 +1,11 @@
-import React, { useContext } from 'react';
+import React from 'react';
 import { useAuthState } from 'react-firebase-hooks/auth';
-import { GlobalContext } from '../context/GlobalState';
 import { auth, db } from '../firebase';
 
 export const Transaction = ({ id, transaction, incomeText, expenseText, expenseType, timestamp }) => {
     const [user] = useAuthState(auth);
 
     const sign = transaction < 0 ? '-' : '+';
-
-    const { deleteTransaction } = useContext(GlobalContext);
 
     const monthNames = ["January", "February", "March", "April", "May", "June",
         "July", "August", "September", "October", "November", "December", "January", "February", "March", "April", "May", "June",
@@ -46,7 +43,7 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, expenseT
             <div className="transaction__time">
                 <p>{timestamp}</p>
             </div>
-            <button className="delete-btn" onClick={() => { deleteTransaction(id); deleteTransactionFromDB(id); }}>x</button>
+            <button className="delete-btn" onClick={() => { deleteTransactionFromDB(id); }}>x</button>
         </div>
     )
 }

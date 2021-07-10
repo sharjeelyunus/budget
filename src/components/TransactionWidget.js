@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState } from 'react';
 import AddCircleIcon from '@material-ui/icons/AddCircle';
 import RemoveCircleIcon from '@material-ui/icons/RemoveCircle';
 import { makeStyles } from '@material-ui/core/styles';
@@ -9,7 +9,6 @@ import { db, auth } from '../firebase';
 import { useAuthState } from 'react-firebase-hooks/auth';
 import firebase from 'firebase';
 import './Wallet.css';
-import { GlobalContext } from '../context/GlobalState';
 
 const useStyles = makeStyles((theme) => ({
     modal: {
@@ -85,45 +84,32 @@ const TransactionWidget = () => {
         "July", "August", "September", "October", "November", "December"
     ];
 
-    const dayNames = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
     const newDate = new Date();
     const date = newDate.getDate();
-    const day = dayNames[newDate.getDay() - 1];
     const monthName = monthNames[newDate.getMonth()];
     const year = newDate.getFullYear();
 
-    const { addIncome } = useContext(GlobalContext);
-    const { addExpense } = useContext(GlobalContext);
-
     const id = Math.floor(Math.random() * 100000000);
+
+    const col = db.collection('users').doc(`${user.email}`);
 
     const handleIncome = (e) => {
         e.preventDefault();
 
-        const newIncome = {
-            id: id,
-            incomeText: incomeText,
-            amount: +incomeAmount,
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
-        }
-
-        addIncome(newIncome);
-
-        db.collection('users').doc(`${user.email}`).collection('Transactions').add({
+        col.collection('Transactions').add({
             id: id,
             amount: incomeAmount,
             incomeText: incomeText,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
-        db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`).add({
+        col.collection('Filter').doc('Monthly').collection(`${monthName}`).add({
             id: id,
             amount: incomeAmount,
             incomeText: incomeText,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
         setIncomeText('');
@@ -133,31 +119,22 @@ const TransactionWidget = () => {
     const handleExpense = (e) => {
         e.preventDefault();
 
-        const newExpense = {
-            id: id,
-            expenseText,
-            amount: -`${expenseAmount}`,
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
-        }
-
-        addExpense(newExpense);
-
-        db.collection('users').doc(`${user.email}`).collection('Transactions').add({
+        col.collection('Transactions').add({
             id: id,
             amount: -expenseAmount,
             expenseText: expenseText,
             expenseType: expenseType,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
-        db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`).add({
+        col.collection('Filter').doc('Monthly').collection(`${monthName}`).add({
             id: id,
             amount: -expenseAmount,
             expenseText: expenseText,
             expenseType: expenseType,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
         setExpenseText('');
@@ -167,13 +144,13 @@ const TransactionWidget = () => {
     const handleGetLoan = (e) => {
         e.preventDefault();
 
-        db.collection('users').doc(`${user.email}`).collection('Loans').add({
+        col.collection('Loans').add({
             id: id,
             amount: getLoanAmount,
             getLoanText: getLoanText,
             getLoanFrom: getLoanFrom,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
         setGetLoanText('');
@@ -184,13 +161,13 @@ const TransactionWidget = () => {
     const handleGiveLoan = (e) => {
         e.preventDefault();
 
-        db.collection('users').doc(`${user.email}`).collection('Loans').add({
+        col.collection('Loans').add({
             id: id,
             amount: -giveLoanAmount,
             giveLoanText: giveLoanText,
             giveLoanTo: giveLoanTo,
             timestamp: firebase.firestore.FieldValue.serverTimestamp(),
-            localTimestamp: `${day} ${date} ${monthName} ${year}`
+            localTimestamp: `${date}/${monthName}/${year}`
         });
 
         setGiveLoanText('');
@@ -220,7 +197,7 @@ const TransactionWidget = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleIncome}>
                                 <div className="addIncome__date">
-                                    <span>{day} {date} {monthName}</span>
+                                    <span>{date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
@@ -265,7 +242,7 @@ const TransactionWidget = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleExpense}>
                                 <div className="addIncome__date">
-                                    <span>{day} {date} {monthName}</span>
+                                    <span>{date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
@@ -325,7 +302,7 @@ const TransactionWidget = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleGetLoan}>
                                 <div className="addIncome__date">
-                                    <span>{day} {date} {monthName}</span>
+                                    <span>{date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
@@ -376,7 +353,7 @@ const TransactionWidget = () => {
                         <div className="wallet__addIncome">
                             <form className="addIncome__form" onSubmit={handleGiveLoan}>
                                 <div className="addIncome__date">
-                                    <span>{day} {date} {monthName}</span>
+                                    <span>{date} {monthName}</span>
                                 </div>
                                 <div className="addIncome__input">
                                     <input
