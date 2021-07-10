@@ -110,7 +110,15 @@ const TransactionWidget = () => {
 
         addIncome(newIncome);
 
-        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').add({
+        db.collection('users').doc(`${user.email}`).collection('Transactions').add({
+            id: id,
+            amount: incomeAmount,
+            incomeText: incomeText,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
+
+        db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`).add({
             id: id,
             amount: incomeAmount,
             incomeText: incomeText,
@@ -134,7 +142,16 @@ const TransactionWidget = () => {
 
         addExpense(newExpense);
 
-        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').add({
+        db.collection('users').doc(`${user.email}`).collection('Transactions').add({
+            id: id,
+            amount: -expenseAmount,
+            expenseText: expenseText,
+            expenseType: expenseType,
+            timestamp: firebase.firestore.FieldValue.serverTimestamp(),
+            localTimestamp: `${day} ${date} ${monthName} ${year}`
+        });
+
+        db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`).add({
             id: id,
             amount: -expenseAmount,
             expenseText: expenseText,
@@ -150,7 +167,7 @@ const TransactionWidget = () => {
     const handleGetLoan = (e) => {
         e.preventDefault();
 
-        db.collection(`${user.email}`).doc('Loans').collection('Loan').add({
+        db.collection('users').doc(`${user.email}`).collection('Loans').add({
             id: id,
             amount: getLoanAmount,
             getLoanText: getLoanText,
@@ -167,7 +184,7 @@ const TransactionWidget = () => {
     const handleGiveLoan = (e) => {
         e.preventDefault();
 
-        db.collection(`${user.email}`).doc('Loans').collection('Loan').add({
+        db.collection('users').doc(`${user.email}`).collection('Loans').add({
             id: id,
             amount: -giveLoanAmount,
             giveLoanText: giveLoanText,

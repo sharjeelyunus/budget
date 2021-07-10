@@ -8,7 +8,7 @@ const Loan = ({ id, transaction, getLoanText, giveLoanText, getLoanFrom, giveLoa
     const sign = transaction < 0 ? '-' : '+';
 
     const deleteTransactionFromDB = () => {
-        const docToBeDeleted = db.collection(`${user.email}`).doc('Loans').collection('Loan').where('id', '==', id);
+        const docToBeDeleted = db.collection('users').doc(`${user.email}`).collection('Loans').where('id', '==', id);
         docToBeDeleted.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();

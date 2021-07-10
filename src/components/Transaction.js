@@ -10,9 +10,24 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, expenseT
 
     const { deleteTransaction } = useContext(GlobalContext);
 
+    const monthNames = ["January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December", "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+
+    const newDate = new Date();
+    const monthName = monthNames[newDate.getMonth()];
+
     const deleteTransactionFromDB = () => {
-        const docToBeDeleted = db.collection(`${user.email}`).doc('Transactions').collection('Transaction').where('id', '==', id);
+        const docToBeDeleted = db.collection('users').doc(`${user.email}`).collection('Transactions').where('id', '==', id);
         docToBeDeleted.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                doc.ref.delete();
+            });
+        });
+
+        const docToBeDeletedMonthly = db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`).where('id', '==', id);
+        docToBeDeletedMonthly.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
             });

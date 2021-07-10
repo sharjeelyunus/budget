@@ -12,7 +12,7 @@ const Wallet = () => {
     const [loans, setLoans] = useState([]);
 
     useEffect(() => {
-        db.collection(`${user.email}`).doc('Transactions').collection('Transaction').onSnapshot(snapshot => {
+        db.collection('users').doc(`${user.email}`).collection('Transactions').onSnapshot(snapshot => {
             setTransctions(snapshot.docs.map(doc => ({
                 transaction: doc.data()
             })));
@@ -20,7 +20,7 @@ const Wallet = () => {
     }, [user]);
 
     useEffect(() => {
-        db.collection(`${user.email}`).doc('Loans').collection('Loan').onSnapshot(snapshot => {
+        db.collection('users').doc(`${user.email}`).collection('Loans').onSnapshot(snapshot => {
             setLoans(snapshot.docs.map(doc => ({
                 loan: doc.data()
             })));

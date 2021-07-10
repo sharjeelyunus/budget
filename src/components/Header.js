@@ -66,15 +66,22 @@ const Header = () => {
     const monthName = monthNames[newDate.getMonth()];
 
     const ResetAllData = () => {
-        const TransToBeDeleted = db.collection(`${user.email}`).doc('Transactions').collection('Transaction');
+        const TransToBeDeleted = db.collection('users').doc(`${user.email}`).collection('Transactions');
         TransToBeDeleted.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
             });
         });
 
-        const LoansToBeDeleted = db.collection(`${user.email}`).doc('Loans').collection('Loan');
+        const LoansToBeDeleted = db.collection('users').doc(`${user.email}`).collection('Loans');
         LoansToBeDeleted.get().then(function (querySnapshot) {
+            querySnapshot.forEach(function (doc) {
+                doc.ref.delete();
+            });
+        });
+
+        const FilterToBeDeleted = db.collection('users').doc(`${user.email}`).collection('Filter').doc('Monthly').collection(`${monthName}`);
+        FilterToBeDeleted.get().then(function (querySnapshot) {
             querySnapshot.forEach(function (doc) {
                 doc.ref.delete();
             });
