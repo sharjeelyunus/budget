@@ -191,4 +191,13 @@
   .wallet__addIncome > form > input {
     width: 230px;
   }
+
+  .options {
+    padding: 0px;
+    margin-top: 10px;
+  }
+
+  .options > lable {
+    display: none;
+  }
 }
