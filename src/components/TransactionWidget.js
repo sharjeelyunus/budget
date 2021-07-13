@@ -266,12 +266,13 @@ const TransactionWidget = () => {
                                         value={expenseType}
                                         onChange={(e) => setExpenseType(e.target.value)}
                                     >
+                                        <option></option>
                                         <option>Food</option>
                                         <option>Shopping</option>
                                         <option>Travel</option>
                                         <option>Fuel</option>
                                         <option>Entertainment</option>
-                                        <option>Others</option>
+                                        <option>Other</option>
                                     </select>
                                 </div>
                                 <button type="submit">

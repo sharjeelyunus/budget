@@ -34,12 +34,12 @@ export const Transaction = ({ id, transaction, incomeText, expenseText, expenseT
     return (
         <div className={transaction < 0 ? 'transaction__card minus' : 'transaction__card plus'}>
             <div className="transaction__purpose">
-                <h4>{incomeText || expenseText}</h4>
-            </div>
-            <div className="transaction__money">
                 <h4>{sign}{Math.abs(transaction)} PKR</h4>
             </div>
-            <p>{expenseType}</p>
+            <div className="transaction__money">
+                <h4>{incomeText || expenseText}</h4>
+                <p>{expenseType}</p>
+            </div>
             <div className="transaction__time">
                 <p>{timestamp}</p>
             </div>
