@@ -3,7 +3,22 @@
 }
 
 @media only screen and (max-width: 600px) {
+  .widgets {
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
   .balance {
-    display: none;
+    height: 70px;
+    width: 250px;
+  }
+
+  .balance > .wallet__header > .wallet__total > h3 {
+    font-size: 25px;
+  }
+
+  .balance > .wallet__header > h1 {
+    font-size: 20px;
   }
 }

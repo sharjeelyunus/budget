@@ -108,10 +108,8 @@ const Header = () => {
                             onClick={handleToggle}
                         >
                             <Avatar
-
                                 alt={user?.displayName}
                                 src={user?.photoURL}
-                                title="SignOut"
                             />
                         </Button>
                         <Popper open={open} anchorEl={anchorRef.current} role={undefined} transition disablePortal>

@@ -49,14 +49,16 @@
   .header__logo {
     padding: 10px;
     font-size: 12px;
+    margin-left: 40px;
   }
 
   .header__user {
     padding: 10px;
     font-size: 12px;
+    margin-right: 40px;
   }
 
-  .header__user > h2 > span {
+  .header__user > h2 {
     display: none;
   }
 
